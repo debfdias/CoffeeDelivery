@@ -9,6 +9,7 @@ This project was made using the following technologies:
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
 - [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage/)
+- [Tailwind](https://tailwindcss.com/)
 
 ## :computer: How to run
 
