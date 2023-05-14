@@ -1,11 +1,11 @@
 import { Minus, Plus } from "phosphor-react";
-import { useContext, useState } from "react";
-import { CartContext } from "../contexts/CartContext";
-import ShoppCartWhite from "../public/cartwhite.svg";
+import { useState } from "react";
+import ShoppCartWhite from "../assets/cartwhite.svg";
+import { useCart } from "../hooks/useCart";
 
 export interface CoffeeItem {
   id: number;
-  span: string[];
+  tags: string[];
   name: string;
   description: string;
   image: string;
@@ -19,17 +19,17 @@ interface CoffeeProps {
 export function CoffeeCard({ coffee }: CoffeeProps) {
   const [quantity, setQuantity] = useState(1);
 
-  function addCoffeeQuantity() {
+  function handleIncrease() {
     setQuantity((state) => state + 1);
   }
 
-  function removeCoffeeQuantity() {
+  function handleDecrease() {
     setQuantity((state) => state - 1);
   }
 
-  const { addNewCoffeeToCart } = useContext(CartContext);
+  const { addNewCoffeeToCart } = useCart();
 
-  function addCoffeeToCart() {
+  function handleAddToCart() {
     const addCoffee = {
       ...coffee,
       quantity,
@@ -44,7 +44,7 @@ export function CoffeeCard({ coffee }: CoffeeProps) {
         <div className="mt-[-1.25rem]">
           <img
             alt=""
-            src={`/coffesImgs/${coffee.image}`}
+            src={`/coffees/${coffee.image}`}
             width={120}
             height={120}
           />
@@ -52,12 +52,12 @@ export function CoffeeCard({ coffee }: CoffeeProps) {
       </div>
 
       <div className="flex items-center justify-center mt-3">
-        {coffee.span.map((span) => (
+        {coffee.tags?.map((tag) => (
           <span
-            key={`${coffee.id}.${span}`}
+            key={`${coffee.id}.${tag}`}
             className="px-2 py-1 mx-1 text-yellow bg-yellow-light rounded-full text-[10px]"
           >
-            {span}
+            {tag}
           </span>
         ))}
       </div>
@@ -72,25 +72,25 @@ export function CoffeeCard({ coffee }: CoffeeProps) {
       </div>
       <div className="h-[38px] mt-[33px] mb-5 mx-4 flex items-center justify-center">
         <span className="font-extrabold font-baloo2 text-xl text-base-text whitespace-nowrap">
-          R$ 9,90
+          $ {coffee.price}
         </span>
         <div className="ml-[23px] mr-2 h-full bg-base-button gap-2 rounded-md whitespace-nowrap">
           <button
             className="ml-2 mr-1 my-3"
-            onClick={addCoffeeQuantity}
+            onClick={handleDecrease}
             disabled={quantity <= 1}
           >
             <Minus size={14} color="#8047F8" />
           </button>
           <span>{quantity}</span>
-          <button className="ml-1 mr-2 my-3 " onClick={removeCoffeeQuantity}>
+          <button className="ml-1 mr-2 my-3 " onClick={handleIncrease}>
             <Plus size={14} color="#8047F8" />
           </button>
         </div>
 
         <button
           className=" bg-purple-dark flex items-center justify-center ml-2 w-full rounded-md h-full"
-          onClick={addCoffeeToCart}
+          onClick={handleAddToCart}
         >
           <img alt="" src={ShoppCartWhite} width={22} height={22} />
         </button>
